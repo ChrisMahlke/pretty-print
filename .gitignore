@@ -1,0 +1,14 @@
+
+*.config
+*.vsidx
+*.lock
+.vs/pretty-print/v17/.suo
+*.db
+*.db-shm
+*.db-wal
+*.opendb
+*.ipch
+*.json
+*.sqlite
+*.exe
+*.obj

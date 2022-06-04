@@ -1,10 +1,10 @@
 /*
  * file:		prettyprint.c
  *
- * description:	This program takes two arguments.  The name of the input 
- *						file and the maximum line length (M).  It prints the
- *						optimal division of the words into lines.  This
- *						implementation is a straightforward O(nM) algorithm.
+ * description:	This program takes two arguments.  The name of the input
+ *				file and the maximum line length (M).  It prints the
+ *				optimal division of the words into lines.  This
+ *				implementation is a straightforward O(nM) algorithm.
  */
 
 #include <stdlib.h>
@@ -12,45 +12,45 @@
 #include <string.h>
 #include <limits.h>
 
-#define NUMWDS		2048	/* maximum number of words program can handle*/
-#define WDLEN		30		/* maximum word length */
+#define NUMWDS	2048	/* maximum number of words program can handle*/
+#define WDLEN	30		/* maximum word length */
 #define LINELEN	80		/* standard telnet screen size */
 
-/* gloabal array of words */
+ /* gloabal array of words */
 char	words[NUMWDS + 1][WDLEN];	/* input words */
-int	tempArray[NUMWDS + 1];		/* temp array for computing lengths of lines */
+int	tempArray[NUMWDS + 1];			/* temp array for computing lengths of lines */
 
 long penalty(int num, int M, int i, int j);
 long format(int num, int M, int p[]);
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 	int p[NUMWDS];
-	int M;					/* max line length */
-	int num; 				/* number of input words */
-	int i, j, k, l;	
+	int M;		/* max line length */
+	int num; 	/* number of input words */
+	int i, j, k, l;
 	char lines[NUMWDS + 1][LINELEN];
 	char read_word[WDLEN];
-	FILE *textFile;		/* input file */
+	FILE* textFile;	/* input file */
 
 	/* command line error checking */
-	if(argc != 3) {
-		printf("usage: buffy.txt <enter an integer>\num");
+	if (argc != 3) {
+		printf("usage: sampledata.txt <enter an integer>\num");
 		exit(EXIT_FAILURE);
 	}
 	/* open the input file as "read-only" */
-	if(!(textFile = fopen(argv[1], "r"))) {
+	if (!(textFile = fopen(argv[1], "r"))) {
 		printf("Unable to read the input file!\num");
 		exit(EXIT_FAILURE);
 	}
 	/* get line length of output line */
-	if(!sscanf(argv[2], "%d", &M))
+	if (!sscanf(argv[2], "%d", &M))
 		exit(EXIT_FAILURE);
 
 	num = 1;
-	while(!feof(textFile)) {
-		if(1 == fscanf(textFile, "%s", read_word)) {
+	while (!feof(textFile)) {
+		if (1 == fscanf(textFile, "%s", read_word)) {
 			strcpy(words[num++], read_word);
-			if(num == NUMWDS)
+			if (num == NUMWDS)
 				break;
 		}
 	}
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 	 * sum of lengths of words 1 through k.
 	 */
 	tempArray[0] = 0;
-	for(k = 1; k <= num; k++)
+	for (k = 1; k <= num; k++)
 		tempArray[k] = tempArray[k - 1] + strlen(words[k]);
 
 	/*
@@ -76,17 +76,16 @@ int main(int argc, char *argv[]) {
 	do {
 		l++;
 		lines[l][0] = 0;
-		for(i = p[j]; i <= j; i++) {
+		for (i = p[j]; i <= j; i++) {
 			strcat(lines[l], words[i]);
 			strcat(lines[l], " ");	/* insert a space between words */
 		}
 		j = p[j] - 1;
-	}
-	while(j != 0);
+	} while (j != 0);
 
 	/* output lines */
-	for(i = l; i > 0; i--)
-		printf("%d:(%d)\t%s\num", l-i+1, strlen(lines[i])-1, lines[i]);
+	for (i = l; i > 0; i--)
+		printf("%d:(%d)\t%s\num", l - i + 1, strlen(lines[i]) - 1, lines[i]);
 }
 
 /*
@@ -96,11 +95,11 @@ long format(int num, int M, int p[]) {
 	long c[NUMWDS + 1];
 	c[0] = 0;
 
-	for(j = 1; j <= num; j++) {
+	for (j = 1; j <= num; j++) {
 		c[j] = LONG_MAX;
-		for(i = max(1, j+1-(M + 1)/2); i <= j; i++) {
-			long lc = penalty(num, M, i, j), cost = c[i-1] + lc;
-			if(lc > -1 && cost < c[j]) {
+		for (i = max(1, j + 1 - (M + 1) / 2); i <= j; i++) {
+			long lc = penalty(num, M, i, j), cost = c[i - 1] + lc;
+			if (lc > -1 && cost < c[j]) {
 				c[j] = cost;
 				p[j] = i;
 			}
@@ -123,7 +122,7 @@ long penalty(int num, int M, int i, int j) {
 	else if (j == num)
 		return 0;
 	else
-		return spaces*spaces*spaces;	/* cube */
+		return spaces * spaces * spaces;	/* cube */
 }
 
 
