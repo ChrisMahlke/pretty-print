@@ -1,5 +1,18 @@
-prettyprint
-===========
+## PrettyPrint
+
+This C program is a text formatter that applies a justified formatting strategy on input text. It organizes words into lines, where each line's length does not exceed a maximum line length provided as input.
+
+The program has three main parts:
+
+Reading from an input file: The program takes two command-line arguments: the name of a text file, and an integer representing the maximum line length. The program reads words from the file and stores them in an array. If the file can't be opened, the program prints an error message and exits. If the line length isn't provided or isn't an integer, the program also exits.
+
+Word and line formatting: Using the words from the input file, the program organizes the words into lines. It uses dynamic programming to determine the optimal way to break up the text into lines, minimizing the penalty associated with each line. The penalty of a line is calculated as the cube of the number of extra spaces at the end of the line. However, if a line's words don't fit within the maximum line length, the penalty is considered as infinite, and if it's the last line, the penalty is 0.
+
+Output: After formatting the text, the program prints the minimum total penalty and the formatted text. Each line in the output includes its number, its length, and its contents.
+
+This is a standard problem in the area of dynamic programming and text formatting, often known as the text justification or word wrap problem. It optimizes line breaks in a way to reduce the raggedness of the right margin when text is flush-left formatted.
+
+## Results
 
 Suppose we want to print a paragraph neatly on a page. The paragraph consists of words of length l1,l2,…,ln.The maximum line length is M. (Assume li < M always.) We define a measure of neatness as follows. The extra space on a line (using one space between words) containing words li through lj  is 
 M – j + i - ∑jk=1 l..
