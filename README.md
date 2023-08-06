@@ -39,12 +39,11 @@ The runtime of this program is primarily determined by the format function. Give
 **Neat Printing of Paragraphs**
 
 **Problem Description**: 
-Imagine having a paragraph made up of words with lengths \( l_1, l_2, …, l_n \). Our task is to print this paragraph neatly onto a page where the maximum permissible line length is \( M \) (given that each word length \( l_i < M \)).
+Imagine having a paragraph made up of words with lengths l1, l2, …, ln. Our task is to print this paragraph neatly onto a page where the maximum permissible line length is M (given that each word length li < M).
 
 **Neatness Measure**:
-The neatness of a printed line is inversely proportional to the "extra space" left on it. Specifically, the extra space on a line that contains words from \( l_i \) to \( l_j \) is calculated as:
-
-\[ \text{Extra Space} = M - j + i - \sum_{k=i}^{j} l_k \]
+The neatness of a printed line is inversely proportional to the "extra space" left on it. Specifically, the extra space on a line that contains words from li to lj is calculated as:
+Extra Space = M - j + i - sum of the lengths of all words from i to j.
 
 The "penalty" associated with a line is the cube of its extra space. Interestingly, using the cubic measure has been empirically observed to provide a good heuristic for neatness. However, we exclude the last line from this penalty calculation.
 
@@ -58,18 +57,18 @@ In this context, a "word" denotes any continuous sequence of characters excludin
 **Efficient Penalty Calculation**:
 An efficient way to compute the penalty is through a dynamic approach:
 
-1. **Storage**: I've implemented a temporary array \( L[0, …, n] \), where \( L[i] \) accumulates the lengths of words from 1 through \( i \): 
-\[ L[i] = L[i – 1] + l_i \]
-Thus, the penalty between words \( i \) and \( j \) can be reformulated as:
-\[ \text{penalty}(i, j) = (M – j + i – (L[j] - L[i – 1]))^3 \]
+1. **Storage**: I've implemented a temporary array L[0, …, n], where L[i] accumulates the lengths of words from 1 through i: 
+L[i] = L[i – 1] + li
+Thus, the penalty between words i and j can be reformulated as:
+penalty(i, j) = (M – j + i – (L[j] - L[i – 1])) cubed.
 
-2. **Time & Space Complexity**: Each value in our penalty array requires \( n \) calculations as we iterate through all possible starting words. Therefore, the algorithm operates in \( O(n^2) \) time and uses \( O(n) \) space, given our array storage.
+2. **Time & Space Complexity**: Each value in our penalty array requires n calculations as we iterate through all possible starting words. Therefore, the algorithm operates in O(n^2) time and uses O(n) space, given our array storage.
 
 **Recursive Definition**:
 To devise a solution, we can recursively define the value of our optimal solution:
-Let \( p(j) \) signify the optimal cost of neatly printing words 1 through \( j \). If \( i \) is the index of the first word on the last line of our optimal solution, our recurrence relation becomes:
-\[ p(j) = p(i-1) + \text{penalty}(i,j) \]
-However, the optimal starting word \( i \) is unknown, leading us to the following formula:
-\[ p(j) = \min_{i} (p(i-1) + \text{penalty}(i,j)) \]
+Let p(j) signify the optimal cost of neatly printing words 1 through j. If i is the index of the first word on the last line of our optimal solution, our recurrence relation becomes:
+p(j) = p(i-1) + penalty(i,j)
+However, the optimal starting word i is unknown, leading us to the following formula:
+p(j) = minimum value of (p(i-1) + penalty(i,j) for all i).
 
 
