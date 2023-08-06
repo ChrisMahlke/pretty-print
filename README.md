@@ -1,5 +1,7 @@
 ## PrettyPrint
 
+A program to optimally format text from an input file so that the words fit within specified line lengths. The goal is to minimize the "ugliness" or penalty, which is based on the number of spaces left at the end of each line.
+
 This C program is a text formatter that applies a justified formatting strategy on input text. It organizes words into lines, where each line's length does not exceed a maximum line length provided as input.
 
 The program has three main parts:
@@ -11,6 +13,26 @@ Word and line formatting: Using the words from the input file, the program organ
 Output: After formatting the text, the program prints the minimum total penalty and the formatted text. Each line in the output includes its number, its length, and its contents.
 
 This is a standard problem in the area of dynamic programming and text formatting, often known as the text justification or word wrap problem. It optimizes line breaks in a way to reduce the raggedness of the right margin when text is flush-left formatted.
+
+## Features
+* Dynamic programming for efficient optimal text formatting.
+* Penalty function to evaluate the cost of a line's formatting.
+* Supports up to 2048 words, each of a maximum length of 30 characters.
+* Defaults to a maximum line width of 80 characters (standard telnet screen size) but can be adjusted as needed.
+
+## Runtime Analysis
+
+The runtime of this program is primarily determined by the format function. Given num words, for every word j, it tries to combine it with previous words (i through j). Thus, its time complexity is O(nM) where n is the number of words and M is the maximum line length. The rest of the operations, such as reading the file or computing penalties, are linear in nature.
+
+## Instructions for Use
+
+1) Compile the program using:
+   `gcc -o prettyprint prettyprint.c`
+
+2) Run the program with two arguments: the path to the input file and the maximum line length:
+   `./prettyprint sampledata.txt 80`
+
+3) Run the program, passing the path to the input file and the desired maximum line length as arguments.
 
 ## Results
 
